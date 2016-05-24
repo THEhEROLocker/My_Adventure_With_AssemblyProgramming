@@ -1,30 +1,59 @@
 #include<stdio.h>
+#include<malloc.h>
+
+#define IGNORE while((getchar() != '\n') && !feof(stdin))
 
 int sort(int* array,int len);
 void display_all(int* array, int len);
+void insert(int **array, int len, int shit);
+
 
 int main()
 {
     int * array = NULL;
-    int reply = 0;
 
+    char reply= '\0';
+    int number = 0;
     int count = 0;
 
     do{
 
+        printf("Enter number: ");
+        scanf("%d", &number);
+        IGNORE;
+
+        insert(&array, count, number);
 
         ++count;
-        printf("Do you want to add another number?  1(NO)  0(Yea)");
+        printf("Do you want to add another number? y/n: ");
+        scanf("%c",&reply);
+        IGNORE;
 
-    }while(reply == 0);
-    display_all(array,10);
+        printf("\n");
+    }while(reply == 'y');
 
-    sort(array,10);
+    display_all(array,count);
 
-    display_all(array, 10);
+    sort(array,count);
+
+    display_all(array, count);
 
 
 return 0;
+}
+
+void insert(int **array, int len, int shit)
+{
+    int * temp = (int*) malloc(sizeof(int)*(len+1));
+    int i = 0;
+
+    for(i = 0; i < len; ++i)
+        temp[i] = (*array)[i];
+
+    temp[len] = shit;
+
+    free(*array);
+    *array = temp;
 }
 
 void display_all(int* array, int len)
